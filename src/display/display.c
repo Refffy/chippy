@@ -4,17 +4,7 @@
 
 
 void initialize_display(GFX *gfx) {
-    memset(gfx, 0, WIDTH * HEIGHT * sizeof(pixel));
-    initialize_ncurses();
-
-    int start_x = 0;
-    int start_y = 0;
-    WINDOW *win = newwin(HEIGHT, WIDTH, start_y, start_x);
-    refresh();
-    box(win, 0, 0);
-    wrefresh(win);
-    getch();
-    endwin();
+    memset(gfx->videomem, 0, WIDTH * HEIGHT * sizeof(pixel));
 }
 
 void initialize_ncurses(void) {
@@ -32,6 +22,17 @@ void put_pixel(GFX *gfx, size_t x, size_t y, pixel pxl) {
     gfx->videomem[index] = pxl;
 }
 
+void draw_window(void) {
+    initialize_ncurses();
+    int start_x = 0;
+    int start_y = 0;
+    WINDOW *win = newwin(WIDTH, HEIGHT, start_y, start_x);
+    refresh();
+    box(win, 0, 0);
+    wrefresh(win);
+    getch();
+    endwin();
+}
 // this function will be basically used in the emulator lifecycle to update the pixels
 void draw_display(GFX *gfx) {
     for (size_t y = 0; y < HEIGHT; ++y) {

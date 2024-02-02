@@ -1,5 +1,5 @@
 #include <stddef.h>
-
+#include <ncurses.h>
 
 #define HEIGHT 64
 #define WIDTH 32
@@ -11,8 +11,8 @@ typedef struct {
 } GFX;
 
 void initialize_display(GFX *gfx);
-void draw_display(GFX *gfx);
-void draw_window(void);
+void draw_display(WINDOW *win, GFX *gfx);
+void draw_window(GFX *gfx);
 
 void initialize_ncurses(void);
 

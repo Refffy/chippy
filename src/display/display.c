@@ -14,7 +14,7 @@ void initialize_ncurses(void) {
 }
 
 size_t get_index(size_t x, size_t y) {
-    return y * HEIGHT + x;
+    return x * WIDTH + y;
 }
 
 void put_pixel(GFX *gfx, size_t x, size_t y, pixel pxl) {
@@ -22,23 +22,24 @@ void put_pixel(GFX *gfx, size_t x, size_t y, pixel pxl) {
     gfx->videomem[index] = pxl;
 }
 
-void draw_window(void) {
+void draw_window(GFX *gfx) {
     initialize_ncurses();
-    int start_x = 0;
-    int start_y = 0;
+    int start_x = 10; // TODO: add some calculation logic based on the terminal size
+    int start_y = 10;
     WINDOW *win = newwin(WIDTH, HEIGHT, start_y, start_x);
     refresh();
     box(win, 0, 0);
     wrefresh(win);
-    getch();
+    draw_display(win, gfx);
+    wgetch(win);
     endwin();
 }
-// this function will be basically used in the emulator lifecycle to update the pixels
-void draw_display(GFX *gfx) {
-    for (size_t y = 0; y < HEIGHT; ++y) {
-        for (size_t x = 0; x < WIDTH; ++x) {
+
+void render_characters(WINDOW *win, GFX *gfx) {
+    for (size_t x = 0; x < WIDTH; ++x) {
+        for (size_t y = 0; y < HEIGHT; ++y) {
             size_t curr_index = get_index(x, y);
-            mvaddch(x, y, gfx->videomem[curr_index] ? '#' : ' ');
+            mvwaddch(win, x, y, gfx->videomem[curr_index] ? '#' : ' ');
         }
     }
 }

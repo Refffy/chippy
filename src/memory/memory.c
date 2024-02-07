@@ -12,4 +12,4 @@ void initialize_memory(Memory *memory) {
     memset(memory->RAM, 0, sizeof(memory->RAM));
     initialize_gp_registers(memory->registers);
     initialize_stack(memory->stack);
-} 
+}

@@ -1,6 +1,4 @@
 #include "vm.h"
-#include "src/chip8.h"
-
 
 // https://tobiasvl.github.io/blog/write-a-chip-8-emulator/#decode
 #define signature(opcode) ((opcode & 0xF000) >> 12) // the first nibble
@@ -16,9 +14,9 @@ uint16_t fetch_opcode(Chip8 *emulator) {
         to get the highest byte part, we need to shift the opcode by 8 (1 byte == 8 bits usually)
         and do OR with the lowest byte part.
     */
-    uint16_t pc = emulator->memory->registers.PC;
-    uint16_t opcode = emulator->RAM[pc] >> 8 | emulator->RAM[pc+1];
-    emulator->memory->registers.PC += 2;   
+    uint16_t pc = emulator->memory->registers->PC;
+    uint16_t opcode = emulator->memory->RAM[pc] >> 8 | emulator->memory->RAM[pc+1];
+    emulator->memory->registers->PC += 2;   
     return opcode;
 }
 
@@ -30,19 +28,19 @@ void evaluate_instruction(Chip8 *emulator) {
             if (N(opcode) == 0x0) {
                 initialize_display(emulator->gfx); // clear the display
             } else if (N(opcode) == 0xE) {
-                emulator->memory->registers.PC = emulator->stack.arr[emulator->stack.stack_ptr--];
+                emulator->memory->registers->PC = emulator->memory->stack->arr[emulator->memory->stack->stack_ptr--];
             } else {
                 // 0nnn - SYS addr instruction is deprecated, ignore it
                 __asm__("nop");
             }
         case 0x1:
-            emulator->memory->registers.PC = NNN(opcode);
+            emulator->memory->registers->PC = NNN(opcode);
         case 0x6:
-            emulator->memory->registers.V[X(opcode)] = NN(opcode);
+            emulator->memory->registers->V[X(opcode)] = NN(opcode);
         case 0x7:
-            emulator->memory->registers.V[X(opcode)] = X(opcode) + NN(opcode);
+            emulator->memory->registers->V[X(opcode)] = X(opcode) + NN(opcode);
         case 0xA:
-            emulator->memory->registers.I = NNN(opcode);
+            emulator->memory->registers->I = NNN(opcode);
             // emulator->memory->registers.I = get_index_register_lst(emulator->memory->registers.I);
         case 0xD:
             // todo

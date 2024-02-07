@@ -11,7 +11,7 @@ typedef struct {
 } GFX;
 
 void initialize_display(GFX *gfx);
-void draw_display(WINDOW *win, GFX *gfx);
+void render_characters(WINDOW *win, GFX *gfx);
 void draw_window(GFX *gfx);
 
 void initialize_ncurses(void);

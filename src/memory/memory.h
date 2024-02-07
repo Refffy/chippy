@@ -10,10 +10,6 @@
 
 typedef uint16_t address;
 typedef uint8_t constant;
-typedef struct {
-    unsigned int X: 4;
-    unsigned int Y: 4; 
-} RegisterID; //RegisterID.X; RegisterID.Y -- are 4-bit registers identifiers
 
 typedef struct {
     uint8_t V[REGISTERS_SIZE];

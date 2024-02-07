@@ -30,7 +30,7 @@ void draw_window(GFX *gfx) {
     refresh();
     box(win, 0, 0);
     wrefresh(win);
-    draw_display(win, gfx);
+    render_characters(win, gfx);
     wgetch(win);
     endwin();
 }

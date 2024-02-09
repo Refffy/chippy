@@ -27,22 +27,29 @@ void evaluate_instruction(Chip8 *emulator) {
         case 0x0:
             if (N(opcode) == 0x0) {
                 initialize_display(emulator->gfx); // clear the display
+                break;
             } else if (N(opcode) == 0xE) {
                 emulator->memory->registers->PC = emulator->memory->stack->arr[emulator->memory->stack->stack_ptr--];
+                break;
             } else {
                 // 0nnn - SYS addr instruction is deprecated, ignore it
                 __asm__("nop");
+                break;
             }
         case 0x1:
             emulator->memory->registers->PC = NNN(opcode);
+            break;
         case 0x6:
             emulator->memory->registers->V[X(opcode)] = NN(opcode);
+            break;
         case 0x7:
             emulator->memory->registers->V[X(opcode)] = X(opcode) + NN(opcode);
         case 0xA:
             emulator->memory->registers->I = NNN(opcode);
             // emulator->memory->registers.I = get_index_register_lst(emulator->memory->registers.I);
+            break;
         case 0xD:
+            break;
             // todo
     }
 }

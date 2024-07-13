@@ -16,7 +16,6 @@ void cleanup_ncurses(void);
 size_t get_index(size_t x, size_t y);
 void put_pixel(GFX *gfx, size_t x, size_t y, pixel pxl);
 WINDOW *initialize_window(void);
-void draw_window_border(WINDOW *win);
 void draw_window(WINDOW *win, GFX *gfx);
 void destroy_window(WINDOW *win);
 void render_characters(WINDOW *win, GFX *gfx);
